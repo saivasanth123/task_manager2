@@ -98,7 +98,7 @@ def main():
 
         elif choice == "6":
             task_manager.save_tasks()  # Save tasks before exiting
-            print("Exiting Task Manager. Goodbye!")
+            print("Exiting Task Manager. Tata Bye Bye!")
             break
 
         else:
