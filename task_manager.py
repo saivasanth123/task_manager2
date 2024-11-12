@@ -1,6 +1,7 @@
 import json
 import os
 
+# Task class
 class Task:
     def __init__(self, id, title, completed=False):
         self.id = id
@@ -9,19 +10,22 @@ class Task:
 
     def to_dict(self):
         return {"id": self.id, "title": self.title, "completed": self.completed}
-
+        
+# Task Manager class for handling tasks
 class TaskManager:
     def __init__(self, filename="tasks.json"):
         self.filename = filename
         self.tasks = []
         self.load_tasks()
-
+        
+  # Add a new task
     def add_task(self, title):
         task_id = self.tasks[-1].id + 1 if self.tasks else 1
         new_task = Task(task_id, title)
         self.tasks.append(new_task)
         print(f"Task '{title}' added with ID {task_id}.")
-
+    
+    # View all tasks
     def view_tasks(self):
         if not self.tasks:
             print("No tasks available.")
@@ -29,7 +33,8 @@ class TaskManager:
             for task in self.tasks:
                 status = "✓" if task.completed else "✗"
                 print(f"[{status}] ID: {task.id} - {task.title}")
-
+                
+  # Delete a task by ID
     def delete_task(self, task_id):
         task = next((task for task in self.tasks if task.id == task_id), None)
         if task:
@@ -37,7 +42,8 @@ class TaskManager:
             print(f"Task ID {task_id} deleted.")
         else:
             print(f"Task ID {task_id} not found.")
-
+            
+ # Mark a task as complete
     def mark_task_complete(self, task_id):
         task = next((task for task in self.tasks if task.id == task_id), None)
         if task:
@@ -45,19 +51,22 @@ class TaskManager:
             print(f"Task ID {task_id} marked as complete.")
         else:
             print(f"Task ID {task_id} not found.")
-
+            
+ # Save tasks to a JSON file
     def save_tasks(self):
         with open(self.filename, "w") as file:
             json.dump([task.to_dict() for task in self.tasks], file)
         print("Tasks saved to file.")
-
+        
+ # Load tasks from a JSON file
     def load_tasks(self):
         if os.path.exists(self.filename):
             with open(self.filename, "r") as file:
                 tasks_data = json.load(file)
                 self.tasks = [Task(**data) for data in tasks_data]
                 print("Tasks loaded from file.")
-
+                
+# CLI Interface
 def main():
     task_manager = TaskManager()
 
